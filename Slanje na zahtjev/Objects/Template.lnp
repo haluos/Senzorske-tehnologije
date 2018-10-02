@@ -1,0 +1,25 @@
+--cpu=Cortex-M4.fp
+".\objects\startup_stm32f40_41xxx.o"
+".\objects\system_stm32f4xx.o"
+".\Template.lib"
+".\objects\main.o"
+".\objects\stm32f4xx_gpio.o"
+".\objects\stm32f4xx_rcc.o"
+".\objects\stm32f4xx_usart.o"
+".\objects\misc.o"
+".\objects\stm32f4xx_dma.o"
+".\objects\packing.o"
+".\objects\dataorganization.o"
+".\objects\usart.o"
+".\objects\dma.o"
+".\objects\timer.o"
+".\objects\delay.o"
+".\objects\ds18b20.o"
+".\objects\lm35dz.o"
+".\objects\tmp101.o"
+".\objects\max6675.o"
+".\objects\max6682.o"
+".\objects\pwm.o"
+--ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\Template.map" -o .\Objects\Template.axf
