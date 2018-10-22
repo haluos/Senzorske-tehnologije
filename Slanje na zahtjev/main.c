@@ -39,7 +39,6 @@ int main(void)
 //				if(request[i] == '\0') break;
 //				index = request[i] - '0';
 //				send_duty(index);
-
 				while(1){
 //					get_temp(t, &temp);
 //					tmp101_temp (&temp, &t);
