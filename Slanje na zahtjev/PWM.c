@@ -2,6 +2,10 @@
 #include "usart.h"
 
 //---------------------------------------------------------------------------------------
+
+int lookup[6][2] = {{500, 300}, {800, 500}, {1000, 700}, {1150, 800}, {1225, 1000}, {1300, 1000}};
+int requested_temp = 0;
+
 //---------------------------------------------------------------------------------------
 
 // Initialisation of PWM1 (TIMER4)
@@ -43,7 +47,8 @@ void Init_PWM1(void)
 	RCC_GetClocksFreq(&RCC_Clocks);
  
   /* Setup timer defaults */
-	TIM_TimeBaseStructure.TIM_Period = (uint16_t)(((RCC_Clocks.PCLK1_Frequency * 2)/ 100000 ) - 1);
+//	TIM_TimeBaseStructure.TIM_Period = (uint16_t)(((RCC_Clocks.PCLK1_Frequency * 2)/ 100000 ) - 1);
+	TIM_TimeBaseStructure.TIM_Period = 536;
   TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -122,7 +127,8 @@ void Init_PWM2(void){
 	RCC_GetClocksFreq(&RCC_Clocks);
  
   /* Setup timer defaults */
-	TIM_TimeBaseStructure.TIM_Period = (uint16_t)(((RCC_Clocks.PCLK1_Frequency * 2)/ 100000 ) - 1);
+//	TIM_TimeBaseStructure.TIM_Period = (uint16_t)(((RCC_Clocks.PCLK1_Frequency * 2)/ 100000 ) - 1);
+	TIM_TimeBaseStructure.TIM_Period = 536;
   TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -224,4 +230,26 @@ void All_OFF()
 	
 	reset_pins();
 }
-					
+
+void send_duty (int temp){
+	if(temp>requested_temp){
+		USART6_SendChar('v');
+		GPIO_SetBits(GPIOB, GPIO_Pin_3);
+		Start_PWM1(lookup[temp-1][0]);	
+		GPIO_ResetBits(GPIOB, GPIO_Pin_3);
+		requested_temp = temp;
+	}
+	else if(temp<requested_temp){
+		USART6_SendChar('m');
+		GPIO_SetBits(GPIOB, GPIO_Pin_3);
+		Start_PWM2(lookup[temp-1][0]);
+		GPIO_ResetBits(GPIOB, GPIO_Pin_3);
+		requested_temp = temp;
+	}
+	else{
+		GPIO_SetBits(GPIOB, GPIO_Pin_3);
+		All_OFF();
+		GPIO_ResetBits(GPIOB, GPIO_Pin_3);
+	}
+}
+			
