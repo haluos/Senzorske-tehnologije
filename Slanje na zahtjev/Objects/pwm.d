@@ -36,11 +36,11 @@
 .\objects\pwm.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\objects\pwm.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 .\objects\pwm.o: timer.h
-.\objects\pwm.o: usart.h
-.\objects\pwm.o: packing.h
+.\objects\pwm.o: .\usart.h
+.\objects\pwm.o: .\packing.h
 .\objects\pwm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\pwm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\pwm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\pwm.o: .\usart.h
-.\objects\pwm.o: defines.h
-.\objects\pwm.o: defines.h
+.\objects\pwm.o: .\defines.h
+.\objects\pwm.o: .\defines.h

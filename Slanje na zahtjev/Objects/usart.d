@@ -42,4 +42,3 @@
 .\objects\usart.o: .\usart.h
 .\objects\usart.o: defines.h
 .\objects\usart.o: defines.h
-.\objects\usart.o: timer.h
