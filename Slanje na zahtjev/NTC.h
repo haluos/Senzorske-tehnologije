@@ -7,5 +7,5 @@
 #include <stdio.h>
 #include <string.h>
 
-float NTC(void);
+uint16_t NTC(void);
 void ADC3_Init (void);

@@ -19,4 +19,4 @@ void gpio_init(void);
 uint8_t reset(void);
 uint8_t read(void);
 void write(uint8_t val);
-float  DS_temp(void);
+uint16_t  DS_temp(void);

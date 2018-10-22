@@ -7,21 +7,21 @@ int main(void)
 	float temp=0, t=0;
 	char c, *ptr, request[7];
 	uint8_t Opcode, pack[PACKSIZE];
-	
+
 	timer2_init();
-	
+
 	gpio_init();
-	
+
 	SysTick_Init();
-	
+
 	usart1_init();
 	USART6_Init();
 	Init_I2C_GPIO();
-	
+
 	ADC1_Init ();
 	ADC2_Init();
 	ADC3_Init ();
-	
+
 	SPI1_Init();
 	SPI2_Init();
 	buffer_initialization();
@@ -39,18 +39,23 @@ int main(void)
 //				if(request[i] == '\0') break;
 //				index = request[i] - '0';
 //				send_duty(index);
-				
+
 				while(1){
 //					get_temp(t, &temp);
 //					tmp101_temp (&temp, &t);
-//	
+//
 //					Opcode=getOpcode(0x03, TIME, LSB_FIRST, CRC_YES, END_YES);
 //					bytes = returnPacked(time, t, Opcode, counter++, pack);
 //					fillBuffer(pack, bytes);
 					if(timer_flag()){
 //						t+=1;
 						get_temp(t, &temp);
-						t+=1;
+						if(t == 300){
+							t=0;
+						}
+						else{
+							t+=1;
+						}
 //					if(!(timer2_get_millisec() % 1000)){
 //						while(USART6_Dequeue(&c)){
 //							USART6_SendChar(c);
@@ -79,7 +84,7 @@ int main(void)
 				}
 //			}
 		}
-		
+
 //		readRequest();
 //		if(requested_temp){
 //			timer2_wait_millisec(50);

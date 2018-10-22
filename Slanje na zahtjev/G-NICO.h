@@ -8,5 +8,5 @@
 #include <string.h>
 #include <math.h>
 
-float NICO_temp (void);
+uint16_t NICO_temp (void);
 void ADC2_Init (void);

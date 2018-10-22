@@ -15,4 +15,4 @@ void i2c_write(I2C_TypeDef* I2Cx, uint8_t data);
 uint8_t read_ack(I2C_TypeDef* I2Cx);
 uint8_t read_nack(I2C_TypeDef* I2Cx);
 void tmp101_init (uint8_t conf);
-float tmp_temp(void);
+uint16_t tmp_temp(void);
