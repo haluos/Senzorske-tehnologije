@@ -28,7 +28,7 @@ void TimeTick_Decrement(void) {
 	}
 }
 
-void delay_nus(u32 n) {
+void delay_nus(uint32_t n) {
 	sysTickCounter = n/3;
 	while (sysTickCounter != 0) {
 	}
@@ -40,7 +40,7 @@ void delay_1ms(void) {
 	}
 }
 
-void delay_nms(u32 n) {
+void delay_nms(uint32_t n) {
 	while (n--) {
 		delay_1ms();
 	}

@@ -7,5 +7,5 @@
 #include <stdio.h>
 #include <string.h>
 
-float LM_temp (void);
+uint16_t LM_temp (void);
 void ADC1_Init (void);

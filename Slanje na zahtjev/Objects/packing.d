@@ -41,5 +41,4 @@
 .\objects\packing.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 .\objects\packing.o: .\packing.h
 .\objects\packing.o: .\defines.h
-.\objects\packing.o: .\timer.h
 .\objects\packing.o: .\defines.h

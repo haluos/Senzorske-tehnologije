@@ -23,6 +23,8 @@
 #include "MAX6682.h"
 #include "MAX6675.h"
 #include "PWM.h"
+#include "NTC.h"
+#include "G-NICO.h"
 
 
 #endif

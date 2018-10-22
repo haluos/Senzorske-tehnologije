@@ -8,4 +8,4 @@
 #include <stm32f4xx_spi.h>
 
 void SPI2_Init (void);
-float max6675temp(void);
+uint16_t max6675temp(void);
