@@ -36,13 +36,12 @@
 .\objects\ds18b20.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\objects\ds18b20.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 .\objects\ds18b20.o: .\timer.h
+.\objects\ds18b20.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\ds18b20.o: .\usart.h
 .\objects\ds18b20.o: .\packing.h
 .\objects\ds18b20.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\ds18b20.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\ds18b20.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\ds18b20.o: .\usart.h
 .\objects\ds18b20.o: .\defines.h
 .\objects\ds18b20.o: .\defines.h
 .\objects\ds18b20.o: .\Delay.h
-.\objects\ds18b20.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h

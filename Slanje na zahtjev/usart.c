@@ -5,9 +5,9 @@ int head_request, tail_request;
 uint8_t buffer[BUFSIZE];
 int head, tail;
 int txReady, request_ready;
+int temp=0;
 
-
-uint8_t RX_BUFFER[BUFSIZE];
+char RX_BUFFER[BUFSIZE];
 int RX_BUFFER_HEAD, RX_BUFFER_TAIL;
 uint8_t TxReady;
 
@@ -87,9 +87,9 @@ void USART1_IRQHandler (void)
 
 void sendData (uint8_t data)
 {
-	while(!TxReady);
+	while(!txReady);
 	USART_SendData(USART6, data);
-	TxReady=0;
+	txReady=0;
 }
 
 void sendPack (uint8_t *pack, int size)
@@ -113,17 +113,14 @@ int fillBuffer (uint8_t *pack, int size)
 	int i, ret=1, new_head;
 	for(i=0; i<(size); ++i)
 	{
-//		new_head=head+1;
-		new_head = RX_BUFFER_HEAD+1;
+		new_head=head+1;
 	
 	if(new_head==BUFSIZE) new_head=0;
 
 	if(new_head!=tail)
 	{
-//		buffer[head]=pack[i];
-		RX_BUFFER[RX_BUFFER_HEAD]=pack[i];
-//		head=new_head;
-		RX_BUFFER_HEAD = new_head;
+		buffer[head]=pack[i];
+		head=new_head;
 	}
 	else
 		ret=0;
@@ -149,20 +146,17 @@ int getRequest (uint8_t* data)
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
-int push_Buffer (uint8_t data)
+int push_Buffer (uint8_t *buffer, uint8_t data)
 	{
 	int new_head, ret=1;
 	new_head=head+1;
-//		new_head=RX_BUFFER_HEAD+1;
 	
 	if(new_head==BUFSIZE) new_head=0;
 
 	if(new_head!=tail)
 	{
 		buffer[head]=data;
-//		RX_BUFFER[RX_BUFFER_HEAD] = data;
 		head=new_head;
-//		RX_BUFFER_HEAD = new_head;
 	}
 	else
 		ret=0;
@@ -170,18 +164,15 @@ int push_Buffer (uint8_t data)
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
-int pop_Buffer (uint8_t *data){
+int pop_Buffer (uint8_t *buffer, uint8_t *data){
 	int ret=1;
 	*data = 0;
 	NVIC_DisableIRQ(USART6_IRQn);
-	if (RX_BUFFER_HEAD != RX_BUFFER_TAIL)
+	if (head != tail)
 	{
-//		*data = buffer[tail];
-		*data = RX_BUFFER[RX_BUFFER_TAIL];
-//		tail++;
-		RX_BUFFER_TAIL++;
-//		if (tail == BUFSIZE) tail = 0;
-		if (RX_BUFFER_TAIL == BUFSIZE) RX_BUFFER_TAIL = 0;
+		*data = buffer[tail];
+		tail++;
+		if (tail == BUFSIZE) tail = 0;
 	}
 	else ret=0;
 	NVIC_EnableIRQ(USART6_IRQn);
@@ -219,45 +210,43 @@ void DMA_SendData (int counter){
 
 //-------------------------------------------------------------------------------------------------------------------------
 void buffer_initialization (void){
-	RX_BUFFER_HEAD=0;
-	RX_BUFFER_TAIL=0;
+	head=0;
+	tail=0;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
 void empty_buffer (void){
 	uint8_t data;
-	while(pop_Buffer(&data)){
-//		sendData(data);
-		USART6_SendChar(data);
+	while(pop_Buffer(buffer, &data)){
+		sendData(data);
 	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
-void readRequest(char *request)
+int readRequest(void)
 {
-//	char request[7];
+	char request[2];
 	char c;
 	int cnt=0, i; 
-	char * ptr, read[7];
+	char * ptr;
 	
 	memset(request, 0, sizeof(request));
-		
-//	if(request_ready){
-		while(1){
-			if (USART6_Dequeue(&c)){
-				if(c == '\n'){
-					break;
+	
+	if(request_ready){
+		while(cnt<2)
+			{
+				if (USART6_Dequeue(&c))
+				{
+					request[cnt++]=c;
 				}
-				read[cnt++] = c;
 			}
-		}
-		sprintf(request, "%s", read);
-//		for(i=0;i<sizeof(request);i++){
-//			USART6_SendChar(request[i]);
-//		}
-//		temp=strtol(request, &ptr, 10);	
+		temp=strtol(request, &ptr, 10);	
 		request_ready = 0;
-//	}
+		return temp;
+		}
+	else{
+		return 0;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -299,7 +288,6 @@ void USART6_Init(void)
 
 	TxReady = 1; 														// USART1 is ready to transmit
 	RX_BUFFER_HEAD = 0; RX_BUFFER_TAIL = 0; // clear rx buffer
-	head = 0; tail = 0;
 
 	// prepare NVIC to receive USART1 IRQs
 	NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn; 					// configure USART1 interrupts
@@ -315,21 +303,24 @@ void USART6_Init(void)
 //--------------------------------------------------------------------------------------------------------------------------
 void USART6_IRQHandler(void)
 {
-	static char data;
-	static char new_head;
+	static char rx_char;
+	static char rx_head;
 	// RX event
 	if (USART_GetITStatus(USART6, USART_IT_RXNE) == SET)
 	{
-		request_ready = 1;
-		USART_ClearITPendingBit(USART6, USART_IT_RXNE);
-		data=USART_ReceiveData(USART6);
-		new_head=head_request+1;
-		if(new_head==BUFSIZE) new_head=0;
-
-		if(new_head!=tail_request)
+	USART_ClearITPendingBit(USART6, USART_IT_RXNE);
+	rx_char = USART_ReceiveData(USART6);
+	// check for buffer overrun:
+	rx_head = RX_BUFFER_HEAD + 1;
+	if (rx_head == BUFSIZE) rx_head = 0;
+		if (rx_head != RX_BUFFER_TAIL)
 		{
-			request_buffer[head_request]=data;
-			head_request=new_head;
+			// adding new char will not cause buffer overrun:
+			RX_BUFFER[RX_BUFFER_HEAD] = rx_char;
+			RX_BUFFER_HEAD = rx_head; // update head
+			if(rx_head % 2){
+				request_ready=1;
+			}
 		}
 	}
 	if (USART_GetITStatus(USART6, USART_IT_TC) == SET)
@@ -341,18 +332,6 @@ void USART6_IRQHandler(void)
 
 //--------------------------------------------------------------------------------------------------------------------------
 
-int check_flag(void){
-	char c;
-	if(request_ready){
-		if(USART6_Dequeue(&c)){
-			request_ready = 0;
-			return 1;
-		}
-	}
-	return 0;
-}
-
-
 	
 //--------------------------------------------------------------------------------------------------------------------------
 
@@ -360,16 +339,17 @@ int check_flag(void){
 //----------------------------------------------------------------------------------------------------------------------------
 int USART6_Dequeue(char* c)
 {
-	int ret=1;
+	int ret;
+	ret = 0;
 	*c = 0;
 	NVIC_DisableIRQ(USART6_IRQn);
-	if (head_request != tail_request)
+	if (RX_BUFFER_HEAD != RX_BUFFER_TAIL)
 	{
-		*c = request_buffer[tail_request];
-		tail_request++;
-		if (tail_request == BUFSIZE) tail_request = 0;
+		*c = RX_BUFFER[RX_BUFFER_TAIL];
+		RX_BUFFER_TAIL++;
+		if (RX_BUFFER_TAIL == BUFSIZE) RX_BUFFER_TAIL = 0;
+		ret = 1;
 	}
-	else ret=0;
 	NVIC_EnableIRQ(USART6_IRQn);
 	return ret;
 }

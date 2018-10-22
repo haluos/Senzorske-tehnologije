@@ -47,11 +47,7 @@
 .\objects\dataorganization.o: defines.h
 .\objects\dataorganization.o: DS18B20.h
 .\objects\dataorganization.o: .\Delay.h
-.\objects\dataorganization.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
 .\objects\dataorganization.o: LM35DZ.h
 .\objects\dataorganization.o: TMP101.h
 .\objects\dataorganization.o: MAX6675.h
 .\objects\dataorganization.o: MAX6682.h
-.\objects\dataorganization.o: G-NICO.h
-.\objects\dataorganization.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
-.\objects\dataorganization.o: NTC.h

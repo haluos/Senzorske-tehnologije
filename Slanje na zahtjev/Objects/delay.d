@@ -35,4 +35,3 @@
 .\objects\delay.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 .\objects\delay.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\objects\delay.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
-.\objects\delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h

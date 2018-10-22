@@ -35,11 +35,3 @@
 .\objects\timer.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 .\objects\timer.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\objects\timer.o: Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
-.\objects\timer.o: .\usart.h
-.\objects\timer.o: .\packing.h
-.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\timer.o: .\usart.h
-.\objects\timer.o: .\defines.h
-.\objects\timer.o: .\defines.h
