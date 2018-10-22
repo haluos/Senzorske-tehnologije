@@ -1,7 +1,6 @@
 #include <timer.h>
 
 uint32_t timer2_Ticks_Millisec;
-int millisec;
 
 void timer2_init(void){
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure; 
@@ -34,7 +33,6 @@ void timer2_init(void){
 	NVIC_Init(&NVIC_InitStructure);
 
 	timer2_Ticks_Millisec = 0;
-	millisec = 0;
 
 	TIM_Cmd(TIM2, ENABLE);
 }
@@ -45,20 +43,7 @@ void TIM2_IRQHandler (void)
 	{
 		TIM_ClearITPendingBit (TIM2, TIM_IT_Update);
 		timer2_Ticks_Millisec++;
-		if(!(timer2_Ticks_Millisec % 1000)){
-//			timer2_Ticks_Millisec = 0;
-			millisec = 1;
-//			empty_buffer();
-		}
 	}
-}
-
-int timer_flag (void){
-	if(millisec){
-		millisec = 0;
-		return 1;
-	}
-	else return 0;
 }
 
 void timer2_wait_millisec (uint32_t ms)

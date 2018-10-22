@@ -6,7 +6,7 @@ void Init_I2C_GPIO(void){
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE); //enable clock for I2C
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE); //enable clock for SCL
 
-	GPIOInit.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12; 
+	GPIOInit.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12 ; 
 	GPIOInit.GPIO_Mode = GPIO_Mode_AF;			
 	GPIOInit.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIOInit.GPIO_OType = GPIO_OType_OD;
@@ -30,16 +30,11 @@ void Init_I2C_GPIO(void){
 }
 
 void start_trans(I2C_TypeDef* I2Cx, uint8_t address){
-
 	while(I2C_GetFlagStatus(I2Cx, I2C_FLAG_BUSY));
-	
 	I2C_GenerateSTART(I2Cx, ENABLE);
-	
 	while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_MODE_SELECT));
-	
 	I2C_Send7bitAddress(I2Cx, address, I2C_Direction_Transmitter);
 	while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-//	USART6_SendChar('f');
 //	USART1_SendChar('a');
 	
 }
@@ -85,8 +80,7 @@ uint8_t read_nack(I2C_TypeDef* I2Cx){
 }
 
 void tmp101_init (uint8_t conf){
-	start_trans(I2C2, 0x90);
-	
+	start_trans(I2C2, 0x92);
 	i2c_write(I2C2, 0x01);
 	i2c_write(I2C2, conf);
 	I2C_GenerateSTOP (I2C2, ENABLE);
@@ -98,10 +92,9 @@ float tmp_temp(void){
 	uint16_t t;
 	float temp;
 	
-	start_trans(I2C2, 0x90);
-	
+	start_trans(I2C2, 0x92);
 	i2c_write(I2C2, 0x00);
-	start_rec(I2C2, 0x90);
+	start_rec(I2C2, 0x92);
 	tempH=read_ack(I2C2);
 	tempL=read_nack(I2C2);
 	

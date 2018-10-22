@@ -9,22 +9,21 @@
 #include <misc.h>
 #include "packing.h"
 #include "defines.h"
-//#include "timer.h"
+#include "timer.h"
 
 void usart1_init(void);
 void sendData (uint8_t data);
 void sendPack (uint8_t *pack, int size);
 int fillBuffer (uint8_t *pack, int size);
 int getRequest (uint8_t* data);
-int push_Buffer (uint8_t data);
-int pop_Buffer (uint8_t *data);
+int push_Buffer (uint8_t *buffer, uint8_t data);
+int pop_Buffer (uint8_t *buffer, uint8_t *data);
 void DMA_SendData (int counter);
 void buffer_initialization (void);
 void empty_buffer (void);
-void readRequest(char *request);
+int readRequest(void);
 void USART6_Init(void);
 int USART6_Dequeue(char* c);
 void USART6_SendChar(char c);
-int check_flag(void);
 
 #endif

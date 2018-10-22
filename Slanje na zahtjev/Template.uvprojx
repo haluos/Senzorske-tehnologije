@@ -505,21 +505,6 @@
               <FileType>1</FileType>
               <FilePath>.\PWM.c</FilePath>
             </File>
-            <File>
-              <FileName>stm32f4xx_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\stm32f4xx_spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>G-NICO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\G-NICO.c</FilePath>
-            </File>
-            <File>
-              <FileName>NTC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\NTC.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -624,16 +609,6 @@
               <FileName>PWM.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\PWM.h</FilePath>
-            </File>
-            <File>
-              <FileName>G-NICO.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\G-NICO.h</FilePath>
-            </File>
-            <File>
-              <FileName>NTC.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\NTC.h</FilePath>
             </File>
           </Files>
         </Group>
