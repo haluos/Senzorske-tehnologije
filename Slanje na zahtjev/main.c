@@ -3,6 +3,7 @@
 int main(void)
 {
 	int time=0;
+<<<<<<< HEAD
 	int index, flag = 0, bytes, counter = 0;
 	float temp=0, t=0;
 	char c, *ptr, request[7];
@@ -22,14 +23,24 @@ int main(void)
 	ADC2_Init();
 	ADC3_Init ();
 
+=======
+	int requested_temp = 0;
+	float temp=0, t;
+	timer2_init();
+	gpio_init();
+	SysTick_Init();
+	usart1_init();
+	USART6_Init();
+	Init_I2C_GPIO();
+	ADC1_Init ();
+>>>>>>> f99c5e6e844fb3965c7518ebb04832ff00c6f0e3
 	SPI1_Init();
 	SPI2_Init();
-	buffer_initialization();
-//	tmp101_init (0xE1);
-//	Init_PWM1();
-//	Init_PWM2();
-//	t=310;
+	Init_PWM1();
+	Init_PWM2();
+	
 	while(1){
+<<<<<<< HEAD
 		if(check_flag()){
 			t=0;
 //			readRequest(request);
@@ -102,5 +113,24 @@ int main(void)
 //				time=0;
 //			}
 //		}
+=======
+		requested_temp=readRequest();
+		if(requested_temp){
+			timer2_wait_millisec(50);
+			time += 50;
+	//		send_referent();
+			lm35dz_temp(&temp, &t);
+			if(temp==requested_temp){
+				All_OFF();
+			}
+			if((time % 1000) == 0){
+				get_temp(time);
+			}
+			if(GPIO_ReadOutputDataBit(GPIOB, GPIO_PinSource1)){
+				empty_buffer();
+				time=0;
+			}
+		}
+>>>>>>> f99c5e6e844fb3965c7518ebb04832ff00c6f0e3
 	}
 }

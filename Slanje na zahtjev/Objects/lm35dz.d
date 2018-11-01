@@ -43,4 +43,4 @@
 .\objects\lm35dz.o: .\usart.h
 .\objects\lm35dz.o: .\defines.h
 .\objects\lm35dz.o: .\defines.h
-.\objects\lm35dz.o: timer.h
+.\objects\lm35dz.o: .\timer.h

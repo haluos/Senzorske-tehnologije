@@ -6,8 +6,13 @@ void Init_I2C_GPIO(void){
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE); //enable clock for I2C
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE); //enable clock for SCL
 
+<<<<<<< HEAD
 	GPIOInit.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12;
 	GPIOInit.GPIO_Mode = GPIO_Mode_AF;
+=======
+	GPIOInit.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12 ; 
+	GPIOInit.GPIO_Mode = GPIO_Mode_AF;			
+>>>>>>> f99c5e6e844fb3965c7518ebb04832ff00c6f0e3
 	GPIOInit.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIOInit.GPIO_OType = GPIO_OType_OD;
 	GPIOInit.GPIO_PuPd = GPIO_PuPd_UP;
@@ -30,16 +35,19 @@ void Init_I2C_GPIO(void){
 }
 
 void start_trans(I2C_TypeDef* I2Cx, uint8_t address){
-
 	while(I2C_GetFlagStatus(I2Cx, I2C_FLAG_BUSY));
+<<<<<<< HEAD
 
 	I2C_GenerateSTART(I2Cx, ENABLE);
 
 	while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_MODE_SELECT));
 
+=======
+	I2C_GenerateSTART(I2Cx, ENABLE);
+	while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_MODE_SELECT));
+>>>>>>> f99c5e6e844fb3965c7518ebb04832ff00c6f0e3
 	I2C_Send7bitAddress(I2Cx, address, I2C_Direction_Transmitter);
 	while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-//	USART6_SendChar('f');
 //	USART1_SendChar('a');
 
 }
@@ -85,8 +93,12 @@ uint8_t read_nack(I2C_TypeDef* I2Cx){
 }
 
 void tmp101_init (uint8_t conf){
+<<<<<<< HEAD
 	start_trans(I2C2, 0x90);
 
+=======
+	start_trans(I2C2, 0x92);
+>>>>>>> f99c5e6e844fb3965c7518ebb04832ff00c6f0e3
 	i2c_write(I2C2, 0x01);
 	i2c_write(I2C2, conf);
 	I2C_GenerateSTOP (I2C2, ENABLE);
@@ -97,11 +109,16 @@ uint16_t tmp_temp(void){
 	uint8_t tempH, tempL;
 	uint16_t t;
 	float temp;
+<<<<<<< HEAD
 
 	start_trans(I2C2, 0x90);
 
+=======
+	
+	start_trans(I2C2, 0x92);
+>>>>>>> f99c5e6e844fb3965c7518ebb04832ff00c6f0e3
 	i2c_write(I2C2, 0x00);
-	start_rec(I2C2, 0x90);
+	start_rec(I2C2, 0x92);
 	tempH=read_ack(I2C2);
 	tempL=read_nack(I2C2);
 

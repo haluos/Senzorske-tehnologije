@@ -78,19 +78,9 @@ uint8_t getOpcode (uint8_t sensorID, uint8_t time_temp, uint8_t MSB_LSB, uint8_t
 
 int returnPacked (float time, float temp, uint8_t Opcode, int counter, uint8_t *packedData)
 {
-	union{
-		char data[8];
-		float data1;
-		float data2;
-	}pack_union;
 	int i,j, byte=0;
-	uint8_t time_char[sizeof(float)+1], temp_char[sizeof(float)+1], array[10];
-	time_char[4]=0;
-	temp_char[4]=0;
-	
-//	uint8_t packedData[PACKSIZE];
-//	memset(packedData, 0, sizeof(packedData));
-//	memset(pack, 0, sizeof(pack));
+	uint8_t time_char[sizeof(float)], temp_char[sizeof(float)];
+	*packedData=0;
 
 //first 2 bytes (A and B) are START sign of packet
 	packedData[byte++] = 'A';
@@ -159,12 +149,6 @@ int returnPacked (float time, float temp, uint8_t Opcode, int counter, uint8_t *
 		packedData[byte++]='Y';
 		packedData[byte++]='Z';
 	}
-//	sprintf(array, "%3.4f", time);
-//	for(i=0;i<sizeof(array);i++){
-//		USART6_SendChar(array[i]);
-//	}
-//	USART6_SendChar(0x0D); USART6_SendChar(0x0A);
-//	sprintf(pack, "%s", packedData);
 	return byte;
 }
 
@@ -181,7 +165,6 @@ int Unpack (uint8_t *pack, float *time, float *temp)
 	uint8_t Opcode, start0= 'A', start1='B';
 	uint8_t checkCRC, byteCRC;
 	uint8_t time_char[sizeof(float)], temp_char[sizeof(float)];
-	uint8_t array[10];
 
 //recognition of START sign and fetching Opcode
 	if(pack[byte++]==start0){
@@ -198,12 +181,10 @@ int Unpack (uint8_t *pack, float *time, float *temp)
 		for (i=0; i<sizeof(float); ++i)
 		{
 			time_char[i]=pack[byte++];
-//			USART6_SendChar(time_char[i]);
 		}
 		for (i=0; i<sizeof(float); ++i)
 		{
 			temp_char[i]=pack[byte++];
-//			USART6_SendChar(temp_char[i]);
 		}
 	}
 	else{
@@ -249,16 +230,5 @@ int Unpack (uint8_t *pack, float *time, float *temp)
 //if there was no error found convert char array of time and temperature to float value
 	memcpy(time, time_char, sizeof(float));
 	memcpy(temp, temp_char, sizeof(float));
-//	sprintf(array, "%s", time_char);
-//	for(i=0;i<sizeof(array);i++){
-//		USART6_SendChar(array[i]);
-//	}
-//	USART6_SendChar(0x0D); USART6_SendChar(0x0A);
-//	memset(array, 0, sizeof(array));
-//	sprintf(array, "%3.4f", temp);
-//	for(i=0;i<sizeof(array);i++){
-//		USART6_SendChar(array[i]);
-//	}
-//	USART6_SendChar(0x0A); USART6_SendChar(0x0D);
 	return ordinal;
 }

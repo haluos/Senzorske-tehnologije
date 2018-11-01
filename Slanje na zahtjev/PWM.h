@@ -10,4 +10,3 @@ void reset_pins(void);
 void Start_PWM1 (int duty_cycle);
 void Start_PWM2 (int duty_cycle);
 void All_OFF(void);
-void send_duty (int temp);
