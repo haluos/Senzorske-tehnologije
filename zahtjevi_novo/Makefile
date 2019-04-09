@@ -6,8 +6,8 @@ BUILDDIR = build
 SOURCEDIR = src
 
 DEVICE = inc/STM32F4xx/
-CORE = ../STM32F4-Discovery_FW_V1.1.0/Libraries/CMSIS/Include/
-PERIPH = ../STM32F4-Discovery_FW_V1.1.0/Libraries/STM32F4xx_StdPeriph_Driver/
+CORE = ../../STM32F4-Discovery_FW_V1.1.0/Libraries/CMSIS/Include/
+PERIPH = ../../STM32F4-Discovery_FW_V1.1.0/Libraries/STM32F4xx_StdPeriph_Driver/
 DISCOVERY = inc/
 
 SOURCES += startup_stm32f4xx.s
