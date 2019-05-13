@@ -32,7 +32,7 @@ int main(void)
 	while(1)
 	{
 		readRequest();
-		if(continue_measure()==1){
+		if(continue_measure()){
 			if(check_ds()){
 				DS_temp(&temp);
 				reset_ds();

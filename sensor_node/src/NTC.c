@@ -24,8 +24,8 @@ void ADC3_Init (void){
 uint16_t NTC(float *temp) {
 	uint16_t data;
 //	float temp;
-	int i;
-	char array[10];
+	// int i;
+	// char array[10];
 	ADC_SoftwareStartConv(ADC3);
 	data=ADC_GetConversionValue(ADC3);
 	*temp=((data)*3.3)/1024;

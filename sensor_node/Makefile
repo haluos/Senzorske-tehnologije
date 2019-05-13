@@ -14,13 +14,8 @@ SOURCES += startup_stm32f4xx.s
 SOURCES += system_stm32f4xx.c
 
 SOURCES += $(wildcard $(SOURCEDIR)/*.c)
-# PARSED = $(shell cut -d '/' -f 2 "$SOURCES")
-# PARSED += startup_stm32f4xx.s
-# PARSED += system_stm32f4xx.c
 
 OBJECTS = $(addprefix $(BUILDDIR)/, $(addsuffix .o, $(basename $(SOURCES))))
-# OBJECTS = $(addprefix $(BUILDDIR)/, $(addsuffix .o, $(basename $($(SOURCES)))))
-
 
 INCLUDES += -I$(CORE) \
 			-I$(DEVICE) \
@@ -44,21 +39,15 @@ CFLAGS  = -O0 -g -Wall -Wl,--gc-sections -I.\
 	 $(INCLUDES) -DUSE_STDPERIPH_DRIVER
 
 LDSCRIPT = stm32_flash.ld
-# LDLIBS = stm32_flash.ld
+
 LDFLAGS += -T$(LDSCRIPT) -mthumb -mcpu=cortex-m4 -mfloat-abi=hard
-# -mfloat-abi=softfp -nostdlib
 
-# print:
-# 	@echo $(INCLUDES)
-
-$(BIN): $(ELF)
-	@$(OBJCOPY) -O binary $< $@
-
-$(HEX): $(ELF)
-	@$(OBJCOPY) -O ihex $< $@
+all: $(ELF)
+	$(OBJCOPY) -O binary $< $(BIN)
+	$(OBJCOPY) -O ihex $< $(HEX)
 
 $(ELF): $(OBJECTS)
-	@$(LD) $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $@ $(LDLIBS)
+	$(LD) $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $@ $(LDLIBS)
 
 $(BUILDDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -68,17 +57,12 @@ $(BUILDDIR)/%.o: %.s
 	@mkdir -p $(dir $@)
 	@$(CC) -c $(CFLAGS) $< -o $@
 
-flash: $(BIN)
-	~/stlink/build/Release/st-flash write $(BIN) 0x8000000
-
-# debug: $(ELF)
-# 	$(GDB) -tui $(ELF)
-
-all:
-	@echo $(OBJECTS)
-	@echo $(PARSED)
-	$(HEX) $(BIN)
-
-.PHONY: clean
+.PHONY: clean debug flash
 clean:
 	rm -rf build
+
+debug: $(ELF)
+	$(GDB) -tui $(ELF)
+
+flash: $(BIN)
+	~/stlink/build/Release/st-flash write $(BIN) 0x8000000

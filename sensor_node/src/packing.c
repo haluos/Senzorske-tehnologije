@@ -78,13 +78,13 @@ uint8_t getOpcode (uint8_t sensorID, uint8_t time_temp, uint8_t MSB_LSB, uint8_t
 
 int returnPacked (uint32_t tim, uint32_t temp, uint8_t Opcode, int counter, uint8_t *packedData)
 {
-	union{
-		char data[8];
-		float data1;
-		float data2;
-	}pack_union;
+	// union{
+	// 	char data[8];
+	// 	float data1;
+	// 	float data2;
+	// }pack_union;
 	int i,j, byte=0;
-	uint8_t time_char[sizeof(float)+1], temp_char[sizeof(float)+1], array[10];
+	uint8_t time_char[sizeof(float)+1], temp_char[sizeof(float)+1];
 	time_char[4]=0;
 	temp_char[4]=0;
 
@@ -191,7 +191,7 @@ int Unpack (uint8_t *pack, float *time, float *temp)
 	uint8_t Opcode, start0= 'A', start1='B';
 	uint8_t checkCRC, byteCRC;
 	uint8_t time_char[sizeof(float)], temp_char[sizeof(float)];
-	uint8_t array[10];
+	// uint8_t array[10];
 
 //recognition of START sign and fetching Opcode
 	if(pack[byte++]==start0){

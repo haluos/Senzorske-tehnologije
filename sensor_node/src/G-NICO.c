@@ -22,10 +22,10 @@ void ADC2_Init (void){
 
 uint16_t NICO_temp(float *temp) {
 	uint16_t data;
-	float brojnik, nazivnik, otpor, a, b, c, d, e, ad, Vcc;
-	int i;
-	char array[10];
-	Vcc=3.3;
+	// float brojnik, nazivnik, otpor, a, b, c, d, e, ad, Vcc;
+	// int i;
+	// char array[10];
+	// Vcc=3.3;
 	ADC_SoftwareStartConv(ADC2);
 	data=ADC_GetConversionValue(ADC2);
 	*temp = 0;
