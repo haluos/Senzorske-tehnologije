@@ -6,6 +6,8 @@ STM32F4 Discovery Board, Peltier heater/cooler, H-bridge, LP filter and voltage 
 Sensors are controlled by STM32F4 with I2C, SPI, 1-Wire or simple ADC, while H-bridge
 is controlled with PWM. Purpose of project is to compare sensitivity of temperature sensors.
 
+![alt text](model.jpg)
+
 ## Short project guide
 
 Implementation of communication protocols of sensors are in matching filenames of sensors.
