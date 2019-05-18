@@ -27,7 +27,11 @@ communication protocol.
 
 ### Communication protocol between STM32F4 and computer
 
-Communication protocol used in project is in form of package which carries information about
+Communication protocol used in project is in form of packet which carries information about
 temperature and time in s that passed after start request.
+Structure of packet is as follows:
+![alt text](packet_structure.png)
+where operation code of packet looks like:
+![alt text](operation_code.png)
 
 Communication protocol is explained with comments in packing.c file.
